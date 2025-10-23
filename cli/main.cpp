@@ -7,6 +7,7 @@ int main() {
 
   std::string website_url;
   std::string platform;
+  std::string confirm;
 
   std::string welcome_message = "Welcome to ILOVENATIVE CLI\nConvert any website to native app";
   std::string ascii_art = R"(
@@ -38,8 +39,8 @@ int main() {
     while(true){
       std::cout << step_1 << std::endl;
       std::cin >> website_url;
-      if(isValidURL(platform)) break;
-      std::cout << "Please enter a valid platform" << std::endl;
+      if(isValidURL(website_url)) break;
+      std::cout << "Please enter a valid URL" << std::endl;
     }
 
     while(true){
@@ -52,12 +53,12 @@ int main() {
     std::cout << "Please confirm the following details[Y/n]:\n"
           << "Website: " << website_url << "\n"
           << "Platform: " << platform << std::endl;
-    cin >> confirm;
+    std::cin >> confirm;
 
     if (confirm == "Y" || confirm == "y" || confirm.empty()) {
       std::cout << "\nDetails confirmed. Proceeding...\n";
       // invoke api
-      // command_handler(website_url, platform);
+      command_handler(website_url, platform);
       keep_running = false;
     } else {
         std::cout << "\nRestarting input...\n\n";
