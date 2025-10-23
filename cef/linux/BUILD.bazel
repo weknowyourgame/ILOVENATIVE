@@ -2,7 +2,7 @@
 # reserved. Use of this source code is governed by a BSD-style license that
 # can be found in the LICENSE file.
 
-PRODUCT_NAME = "cefsimple"
+PRODUCT_NAME = "ILOVENATIVE"
 PKG_NAME = "//tests/{}".format(PRODUCT_NAME)
 
 # Allow access from the parent package only.
