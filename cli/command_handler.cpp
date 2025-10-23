@@ -83,6 +83,7 @@ bool copyCEFExecutable(const std::string& app_name, const std::string& cef_execu
       return false;
     }
 
+    // copy the executable
     std::filesystem::copy_file(source, destination);
 
     // Make it executable
@@ -92,6 +93,39 @@ bool copyCEFExecutable(const std::string& app_name, const std::string& cef_execu
     return true;
   } catch (const std::exception& e) {
     std::cout << "Error copying CEF executable: " << e.what() << std::endl;
+    return false;
+  }
+}
+
+bool copyCEFRuntime(const std::string& app_name, const std::string& cef_executable) {
+  try {
+    // get the directory containing the CEF executable
+    std::filesystem::path cef_path(cef_executable);
+    std::string cef_dir = cef_path.parent_path().string();
+    
+    std::cout << "Copying CEF runtime from: " << cef_dir << std::endl;
+    
+    for (const auto& entry : std::filesystem::directory_iterator(cef_dir)) {
+      std::string source_file = entry.path().string();
+      std::string filename = entry.path().filename().string();
+      std::string destination_file = app_name + "/" + filename;
+      
+      try {
+        if (std::filesystem::is_regular_file(entry)) {
+          std::filesystem::copy_file(source_file, destination_file);
+          std::cout << "Copied: " << filename << std::endl;
+        } else if (std::filesystem::is_directory(entry)) {
+          std::filesystem::copy(source_file, destination_file, std::filesystem::copy_options::recursive);
+          std::cout << "Copied directory: " << filename << std::endl;
+        }
+      } catch (const std::exception& e) {
+        std::cout << "Warning: Could not copy " << filename << ": " << e.what() << std::endl;
+      }
+    }
+    
+    return true;
+  } catch (const std::exception& e) {
+    std::cout << "Error copying CEF runtime: " << e.what() << std::endl;
     return false;
   }
 }
@@ -302,7 +336,7 @@ void command_handler(const std::string& website_url, const std::string& platform
     return;
   }
 
-  // Copy CEF executable
+  // copy CEF runtime (executable + all libraries and resources)
   std::string cef_executable_path = findCEFExecutable();
   if (cef_executable_path.empty()) {
     std::cout << "CEF executable not found. Please ensure the CEF project is built." << std::endl;
@@ -313,8 +347,9 @@ void command_handler(const std::string& website_url, const std::string& platform
     return;
   }
   
-  if (!copyCEFExecutable(app_name, cef_executable_path)) {
-    std::cout << "Failed to copy CEF executable from: " << cef_executable_path << std::endl;
+  std::cout << "Copying complete CEF runtime..." << std::endl;
+  if (!copyCEFRuntime(app_name, cef_executable_path)) {
+    std::cout << "Failed to copy CEF runtime from: " << cef_executable_path << std::endl;
     return;
   }
 

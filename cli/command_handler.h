@@ -9,6 +9,7 @@ std::string generateAppName(const std::string& url);
 std::string findCEFExecutable();
 bool createAppDirectory(const std::string& app_name);
 bool copyCEFExecutable(const std::string& app_name, const std::string& cef_executable);
+bool copyCEFRuntime(const std::string& app_name, const std::string& cef_executable);
 bool createPlatformLauncher(const std::string& app_name, const std::string& website_url, const std::string& platform);
 bool createLinuxDesktopFile(const std::string& app_name, const std::string& website_url);
 bool createWindowsShortcut(const std::string& app_name, const std::string& website_url);
