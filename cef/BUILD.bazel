@@ -18,26 +18,26 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 #
 
 srcs_browser = [
-    "simple_app.cc",
-    "simple_app.h",
-    "simple_handler.cc",
-    "simple_handler.h"
+    "ilovenative_app.cpp",
+    "ilovenative_app.h",
+    "ilovenative_handler.cpp",
+    "ilovenative_handler.h"
 ]
 
 srcs_browser_linux = [
-    "ILOVENATIVE_linux.cpp",
-    "simple_handler_linux.cc"
+    "ilovenative_linux.cpp",
+    "ilovenative_handler_linux.cpp"
 ]
 
 srcs_browser_mac = [
-    "ILOVENATIVE_mac.mm",
-    "simple_handler_mac.mm"
+    "ilovenative_mac.mm",
+    "ilovenative_handler_mac.mm"
 ]
 
 srcs_browser_win = [
-    "ILOVENATIVE_win.cpp",
+    "ilovenative_win.cpp",
     "resource.h",
-    "simple_handler_win.cc"
+    "ilovenative_handler_win.cpp"
 ]
 
 srcs_renderer_mac = [

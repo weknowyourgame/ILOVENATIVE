@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 // Refactored by Sarthak Kapila (sarthakkapila1@gmail.com) 2025.
 
-#include "tests/cefsimple/ilovenative_handler.h"
+#include "ilovenative_handler.h"
 
 #if defined(CEF_X11)
 #include <X11/Xatom.h>

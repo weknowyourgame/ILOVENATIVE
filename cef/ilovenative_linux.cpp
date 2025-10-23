@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 // Refactored by Sarthak Kapila (sarthakkapila1@gmail.com) 2025.
 
-#include "tests/cefsimple/ilovenative_app.h"
+#include "ilovenative_app.h"
 
 #if defined(CEF_X11)
 #include <X11/Xlib.h>
@@ -66,10 +66,10 @@ int main(int argc, char* argv[]) {
   settings.no_sandbox = true;
 #endif
 
-  // SimpleApp implements application-level callbacks for the browser process.
+  // ILOVENATIVE_app implements application-level callbacks for the browser process.
   // It will create the first browser instance in OnContextInitialized() after
   // CEF has initialized.
-  CefRefPtr<SimpleApp> app(new SimpleApp);
+  CefRefPtr<ILOVENATIVE_app> app(new ILOVENATIVE_app);
 
   // Initialize the CEF browser process. May return false if initialization
   // fails or if early exit is desired (for example, due to process singleton

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 // Refactored by Sarthak Kapila (sarthakkapila1@gmail.com) 2025.
 
-#include "tests/cefsimple/simple_app.h"
+#include "ilovenative_app.h"
 
 #include <string>
 
@@ -11,7 +11,7 @@
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "include/wrapper/cef_helpers.h"
-#include "tests/cefsimple/ilovenative_handler.h"
+#include "ilovenative_handler.h"
 
 namespace {
 
@@ -100,9 +100,9 @@ class ILOVENATIVE_BrowserViewDelegate : public CefBrowserViewDelegate {
 
 }  // namespace
 
-ILOVENATIVE::ILOVENATIVE() = default;
+ILOVENATIVE_app::ILOVENATIVE_app() = default;
 
-void ILOVENATIVE::OnContextInitialized() {
+void ILOVENATIVE_app::OnContextInitialized() {
   CEF_REQUIRE_UI_THREAD();
 
   CefRefPtr<CefCommandLine> command_line =
@@ -180,7 +180,7 @@ void ILOVENATIVE::OnContextInitialized() {
   }
 }
 
-CefRefPtr<CefClient> ILOVENATIVE::GetDefaultClient() {
+CefRefPtr<CefClient> ILOVENATIVE_app::GetDefaultClient() {
   // Called when a new browser window is created via Chrome style UI.
   return SimpleHandler::GetInstance();
 }
