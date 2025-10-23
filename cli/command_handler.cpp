@@ -29,6 +29,36 @@ std::string generateAppName(const std::string& url) {
   return domain.empty() ? "WebApp" : std::string(1, std::toupper(domain[0])) + domain.substr(1);
 }
 
+std::string findCEFExecutable() {
+  const char* home_dir = std::getenv("HOME");
+  std::string home_path = home_dir ? home_dir : "";
+  
+  std::vector<std::string> possible_paths = {
+    // relative to current directory
+    "./cef-project/build/ILOVENATIVE/cef/Release/ILOVENATIVE",
+    "../cef-project/build/ILOVENATIVE/cef/Release/ILOVENATIVE",
+    "../../cef-project/build/ILOVENATIVE/cef/Release/ILOVENATIVE",
+    
+    home_path + "/cef-project/build/ILOVENATIVE/cef/Release/ILOVENATIVE",
+    
+    // Common build locations
+    "./build/ILOVENATIVE/cef/Release/ILOVENATIVE",
+    "../build/ILOVENATIVE/cef/Release/ILOVENATIVE",
+    
+    // Environment variable override
+    std::getenv("ILOVENATIVE_CEF_PATH") ? std::getenv("ILOVENATIVE_CEF_PATH") : ""
+  };
+  
+  // Check each path
+  for (const auto& path : possible_paths) {
+    if (!path.empty() && std::filesystem::exists(path)) {
+      return path;
+    }
+  }
+  
+  return "";
+}
+
 bool createAppDirectory(const std::string& app_name) {
   try {
     if (std::filesystem::exists(app_name)) {
@@ -273,8 +303,18 @@ void command_handler(const std::string& website_url, const std::string& platform
   }
 
   // Copy CEF executable
-  if (!copyCEFExecutable(app_name, "ILOVENATIVE")) {
-    std::cout << "Failed to copy CEF executable" << std::endl;
+  std::string cef_executable_path = findCEFExecutable();
+  if (cef_executable_path.empty()) {
+    std::cout << "CEF executable not found. Please ensure the CEF project is built." << std::endl;
+    std::cout << "Expected locations:" << std::endl;
+    std::cout << "  - ~/cef-project/build/ILOVENATIVE/cef/Release/ILOVENATIVE" << std::endl;
+    std::cout << "  - ../cef-project/build/ILOVENATIVE/cef/Release/ILOVENATIVE" << std::endl;
+    std::cout << "  - ./cef-project/build/ILOVENATIVE/cef/Release/ILOVENATIVE" << std::endl;
+    return;
+  }
+  
+  if (!copyCEFExecutable(app_name, cef_executable_path)) {
+    std::cout << "Failed to copy CEF executable from: " << cef_executable_path << std::endl;
     return;
   }
 
