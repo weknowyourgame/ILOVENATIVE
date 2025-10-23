@@ -127,7 +127,8 @@ void ILOVENATIVE_app::OnContextInitialized() {
   // that instead of the default URL.
   url = command_line->GetSwitchValue("url");
   if (url.empty()) {
-    throw std::runtime_error("Error: url argument is required.");
+    // CEF doesn't support exceptions
+    url = "data:text/html,<html><body><h1>ILOVENATIVE</h1><p>No URL provided. Please specify a URL with --url=your_url</p></body></html>";
   }
 
   // Views is enabled by default (add `--use-native` to disable).
@@ -139,7 +140,7 @@ void ILOVENATIVE_app::OnContextInitialized() {
     // Create the BrowserView.
     CefRefPtr<CefBrowserView> browser_view = CefBrowserView::CreateBrowserView(
         handler, url, browser_settings, nullptr, nullptr,
-        new SimpleBrowserViewDelegate(runtime_style));
+        new ILOVENATIVE_BrowserViewDelegate(runtime_style));
 
     // Optionally configure the initial show state.
     cef_show_state_t initial_show_state = CEF_SHOW_STATE_NORMAL;
