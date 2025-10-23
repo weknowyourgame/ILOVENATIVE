@@ -12,6 +12,7 @@ bool copyCEFExecutable(const std::string& app_name, const std::string& cef_execu
 bool copyCEFRuntime(const std::string& app_name, const std::string& cef_executable);
 bool createPlatformLauncher(const std::string& app_name, const std::string& website_url, const std::string& platform);
 bool createLinuxDesktopFile(const std::string& app_name, const std::string& website_url);
+bool createLinuxShellScript(const std::string& app_name, const std::string& website_url);
 bool createWindowsShortcut(const std::string& app_name, const std::string& website_url);
 bool createMacAppBundle(const std::string& app_name, const std::string& website_url);
 bool packageApp(const std::string& app_name, const std::string& platform);

@@ -136,7 +136,9 @@ bool createPlatformLauncher(const std::string& app_name, const std::string& webs
 
   try {
     if (platform_lower == "linux") {
-      return createLinuxDesktopFile(app_name, website_url);
+      bool desktop_ok = createLinuxDesktopFile(app_name, website_url);
+      bool script_ok = createLinuxShellScript(app_name, website_url);
+      return desktop_ok && script_ok;
     } else if (platform_lower == "windows" || platform_lower == "win") {
       return createWindowsShortcut(app_name, website_url);
     } else if (platform_lower == "mac" || platform_lower == "macos" || platform_lower == "osx") {
@@ -164,13 +166,35 @@ bool createLinuxDesktopFile(const std::string& app_name, const std::string& webs
   desktop_file << "[Desktop Entry]\n";
   desktop_file << "Name=" << app_name << "\n";
   desktop_file << "Comment=Native app for " << website_url << "\n";
-  desktop_file << "Exec=./" << app_name << " --url=" << website_url << " %U\n";
+  desktop_file << "Exec=env LD_LIBRARY_PATH=. ./" << app_name << " --url=" << website_url << " %U\n";
   desktop_file << "Icon=" << app_name << "\n";
   desktop_file << "Terminal=false\n";
   desktop_file << "Type=Application\n";
   desktop_file << "Categories=Network;WebBrowser;\n";
 
   desktop_file.close();
+  return true;
+}
+
+bool createLinuxShellScript(const std::string& app_name, const std::string& website_url) {
+  std::string script_path = app_name + "/" + app_name + ".sh";
+
+  std::ofstream script_file(script_path);
+  if (!script_file.is_open()) {
+    std::cout << "Error creating Linux shell script" << std::endl;
+    return false;
+  }
+
+  script_file << "#!/bin/bash\n";
+  script_file << "# Native app for " << website_url << "\n";
+  script_file << "cd \"$(dirname \"$0\")\"\n";
+  script_file << "export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH\n";
+  script_file << "./" << app_name << " --url=\"" << website_url << "\" \"$@\"\n";
+  script_file.close();
+
+  std::string chmod_cmd = "chmod +x " + script_path;
+  system(chmod_cmd.c_str());
+
   return true;
 }
 
@@ -296,6 +320,7 @@ void provideInstallInstructions(const std::string& app_name, const std::string& 
   std::cout << "   - " << app_name << " (executable)" << std::endl;
   if (platform_lower == "linux") {
     std::cout << "   - " << app_name << ".desktop (desktop entry)" << std::endl;
+    std::cout << "   - " << app_name << ".sh (shell script launcher)" << std::endl;
   } else if (platform_lower == "windows" || platform_lower == "win") {
     std::cout << "   - " << app_name << ".bat (batch file)" << std::endl;
   } else if (platform_lower == "mac" || platform_lower == "macos" || platform_lower == "osx") {
