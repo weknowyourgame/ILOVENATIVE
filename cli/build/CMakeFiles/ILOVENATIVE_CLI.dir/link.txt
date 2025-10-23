@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/ILOVENATIVE_CLI.dir/main.cpp.o CMakeFiles/ILOVENATIVE_CLI.dir/command_handler.cpp.o -o bin/ILOVENATIVE_CLI 
