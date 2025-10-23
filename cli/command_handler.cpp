@@ -6,6 +6,7 @@
 #include <fstream>
 #include <filesystem>
 #include <cctype>
+#include "command_handler.h"
 
 bool isValidPlatform(const std::string& platform) {
   std::string platform_ = platform;

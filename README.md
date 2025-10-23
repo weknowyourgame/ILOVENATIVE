@@ -8,11 +8,11 @@ ILOVENATIVE enables developers to wrap any website in a native desktop applicati
 
 ## Features
 
-- **Cross-Platform Support**: Generate native applications for Windows, macOS, and Linux
-- **Chromium-Powered**: Built on the Chromium Embedded Framework for reliable web content rendering
-- **Command-Line Interface**: Simple CLI for specifying website URLs and target platforms
-- **Native Integration**: Applications integrate seamlessly with the host operating system
-- **Professional Build System**: Supports both CMake and Bazel build configurations
+- Generate native applications for Windows, macOS, and Linux
+- Built on the Chromium Embedded Framework for reliable web content rendering
+- Simple CLI for specifying website URLs and target platforms
+- Applications integrate seamlessly with the host operating system
+- Supports both CMake and Bazel build configurations
 
 ## Architecture
 
@@ -77,25 +77,6 @@ The command-line interface that:
    ```
 
 ## Usage
-
-### Basic Usage
-
-1. **Launch the CLI**
-   ```bash
-   # If installed globally
-   ilovenative
-
-   # Or run directly
-   ./cli/build/bin/ILOVENATIVE
-   ```
-
-2. **Provide website details**
-   - Enter the target website URL
-   - Select the target platform (Windows/macOS/Linux)
-   - Confirm the details
-
-3. **Generate native application**
-   The CLI will process your request and generate platform-specific native application files.
 
 ### Example Workflow
 
