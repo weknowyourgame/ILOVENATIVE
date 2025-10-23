@@ -1,6 +1,6 @@
-// Copyright (c) 2013 The Chromium Embedded Framework Authors. All rights
-// reserved. Use of this source code is governed by a BSD-style license that
-// can be found in the LICENSE file.
+// Copyright (c) 2013 The Chromium Embedded Framework Authors. All rights reserved
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+// Refactored by Sarthak Kapila (sarthakkapila1@gmail.com) 2025.
 
 #include "tests/cefsimple/simple_app.h"
 
@@ -11,15 +11,16 @@
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "include/wrapper/cef_helpers.h"
-#include "tests/cefsimple/simple_handler.h"
+#include "tests/cefsimple/ilovenative_handler.h"
 
 namespace {
 
 // When using the Views framework this object provides the delegate
 // implementation for the CefWindow that hosts the Views-based browser.
-class SimpleWindowDelegate : public CefWindowDelegate {
+// Defines how our app's windows behave
+class ILOVENATIVE_WindowDelegate : public CefWindowDelegate {
  public:
-  SimpleWindowDelegate(CefRefPtr<CefBrowserView> browser_view,
+  ILOVENATIVE_WindowDelegate(CefRefPtr<CefBrowserView> browser_view,
                        cef_runtime_style_t runtime_style,
                        cef_show_state_t initial_show_state)
       : browser_view_(browser_view),
@@ -49,7 +50,7 @@ class SimpleWindowDelegate : public CefWindowDelegate {
   }
 
   CefSize GetPreferredSize(CefRefPtr<CefView> view) override {
-    return CefSize(800, 600);
+    return CefSize(1000, 800);
   }
 
   cef_show_state_t GetInitialShowState(CefRefPtr<CefWindow> window) override {
@@ -65,13 +66,13 @@ class SimpleWindowDelegate : public CefWindowDelegate {
   const cef_runtime_style_t runtime_style_;
   const cef_show_state_t initial_show_state_;
 
-  IMPLEMENT_REFCOUNTING(SimpleWindowDelegate);
-  DISALLOW_COPY_AND_ASSIGN(SimpleWindowDelegate);
+  IMPLEMENT_REFCOUNTING(ILOVENATIVE_WindowDelegate);
+  DISALLOW_COPY_AND_ASSIGN(ILOVENATIVE_WindowDelegate);
 };
 
-class SimpleBrowserViewDelegate : public CefBrowserViewDelegate {
+class ILOVENATIVE_BrowserViewDelegate : public CefBrowserViewDelegate {
  public:
-  explicit SimpleBrowserViewDelegate(cef_runtime_style_t runtime_style)
+  explicit ILOVENATIVE_BrowserViewDelegate(cef_runtime_style_t runtime_style)
       : runtime_style_(runtime_style) {}
 
   bool OnPopupBrowserViewCreated(CefRefPtr<CefBrowserView> browser_view,
@@ -79,7 +80,7 @@ class SimpleBrowserViewDelegate : public CefBrowserViewDelegate {
                                  bool is_devtools) override {
     // Create a new top-level Window for the popup. It will show itself after
     // creation.
-    CefWindow::CreateTopLevelWindow(new SimpleWindowDelegate(
+    CefWindow::CreateTopLevelWindow(new ILOVENATIVE_WindowDelegate(
         popup_browser_view, runtime_style_, CEF_SHOW_STATE_NORMAL));
 
     // We created the Window.
@@ -93,15 +94,15 @@ class SimpleBrowserViewDelegate : public CefBrowserViewDelegate {
  private:
   const cef_runtime_style_t runtime_style_;
 
-  IMPLEMENT_REFCOUNTING(SimpleBrowserViewDelegate);
-  DISALLOW_COPY_AND_ASSIGN(SimpleBrowserViewDelegate);
+  IMPLEMENT_REFCOUNTING(ILOVENATIVE_BrowserViewDelegate);
+  DISALLOW_COPY_AND_ASSIGN(ILOVENATIVE_BrowserViewDelegate);
 };
 
 }  // namespace
 
-SimpleApp::SimpleApp() = default;
+ILOVENATIVE::ILOVENATIVE() = default;
 
-void SimpleApp::OnContextInitialized() {
+void ILOVENATIVE::OnContextInitialized() {
   CEF_REQUIRE_UI_THREAD();
 
   CefRefPtr<CefCommandLine> command_line =
@@ -126,7 +127,7 @@ void SimpleApp::OnContextInitialized() {
   // that instead of the default URL.
   url = command_line->GetSwitchValue("url");
   if (url.empty()) {
-    url = "https://www.google.com";
+    throw std::runtime_error("Error: url argument is required.");
   }
 
   // Views is enabled by default (add `--use-native` to disable).
@@ -157,7 +158,7 @@ void SimpleApp::OnContextInitialized() {
 #endif
 
     // Create the Window. It will show itself after creation.
-    CefWindow::CreateTopLevelWindow(new SimpleWindowDelegate(
+    CefWindow::CreateTopLevelWindow(new ILOVENATIVE_WindowDelegate(
         browser_view, runtime_style, initial_show_state));
   } else {
     // Information used when creating the native window.
@@ -166,7 +167,7 @@ void SimpleApp::OnContextInitialized() {
 #if defined(OS_WIN)
     // On Windows we need to specify certain flags that will be passed to
     // CreateWindowEx().
-    window_info.SetAsPopup(nullptr, "cefsimple");
+    window_info.SetAsPopup(nullptr, "ILOVENATIVE");
 #endif
 
     // Alloy style will create a basic native window. Chrome style will create a
@@ -179,7 +180,7 @@ void SimpleApp::OnContextInitialized() {
   }
 }
 
-CefRefPtr<CefClient> SimpleApp::GetDefaultClient() {
+CefRefPtr<CefClient> ILOVENATIVE::GetDefaultClient() {
   // Called when a new browser window is created via Chrome style UI.
   return SimpleHandler::GetInstance();
 }

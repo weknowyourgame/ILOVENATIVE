@@ -6,65 +6,65 @@
 # Source files.
 #
 
-# cefsimple sources.
-set(CEFSIMPLE_SRCS
-        simple_app.cc
-        simple_app.h
-        simple_handler.cc
-        simple_handler.h
+# ILOVENATIVE sources.
+set(ILOVENATIVE_SRCS
+        ilovenative_app.cpp
+        ilovenative_app.h
+        ilovenative_handler.cpp
+        ilovenative_handler.h
   )
-set(CEFSIMPLE_SRCS_LINUX
-        cefsimple_linux.cc
-        simple_handler_linux.cc
+set(ILOVENATIVE_SRCS_LINUX
+        ilovenative_linux.cpp
+        ilovenative_handler_linux.cpp
   )
-set(CEFSIMPLE_SRCS_MAC
-  cefsimple_mac.mm
+set(ILOVENATIVE_SRCS_MAC
+  ILOVENATIVE_mac.mm
   simple_handler_mac.mm
   )
-set(CEFSIMPLE_SRCS_WINDOWS
-  cefsimple_win.cc
+set(ILOVENATIVE_SRCS_WINDOWS
+  ILOVENATIVE_win.cpp
   resource.h
-  simple_handler_win.cc
+  simple_handler_win.cpp
   )
-APPEND_PLATFORM_SOURCES(CEFSIMPLE_SRCS)
-source_group(cefsimple FILES ${CEFSIMPLE_SRCS})
+APPEND_PLATFORM_SOURCES(ILOVENATIVE_SRCS)
+source_group(ILOVENATIVE FILES ${ILOVENATIVE_SRCS})
 
-set(CEFSIMPLE_WIN_SRCS_WINDOWS
-  win/cefsimple.rc
+set(ILOVENATIVE_WIN_SRCS_WINDOWS
+  win/ILOVENATIVE.rc
   )
-APPEND_PLATFORM_SOURCES(CEFSIMPLE_WIN_SRCS)
-source_group(cefsimple\\\\win FILES ${CEFSIMPLE_WIN_SRCS})
+APPEND_PLATFORM_SOURCES(ILOVENATIVE_WIN_SRCS)
+source_group(ILOVENATIVE\\\\win FILES ${ILOVENATIVE_WIN_SRCS})
 
-set(CEFSIMPLE_SRCS
-  ${CEFSIMPLE_SRCS}
-  ${CEFSIMPLE_WIN_SRCS}
+set(ILOVENATIVE_SRCS
+  ${ILOVENATIVE_SRCS}
+  ${ILOVENATIVE_WIN_SRCS}
   )
 
-# cefsimple helper sources.
-set(CEFSIMPLE_HELPER_SRCS_MAC
-  process_helper_mac.cc
+# ILOVENATIVE helper sources.
+set(ILOVENATIVE_HELPER_SRCS_MAC
+  process_helper_mac.cpp
   )
-APPEND_PLATFORM_SOURCES(CEFSIMPLE_HELPER_SRCS)
-source_group(cefsimple FILES ${CEFSIMPLE_HELPER_SRCS})
+APPEND_PLATFORM_SOURCES(ILOVENATIVE_HELPER_SRCS)
+source_group(ILOVENATIVE FILES ${ILOVENATIVE_HELPER_SRCS})
 
-# cefsimple resources.
-set(CEFSIMPLE_RESOURCES_MAC_SRCS_MAC
+# ILOVENATIVE resources.
+set(ILOVENATIVE_RESOURCES_MAC_SRCS_MAC
   mac/Info.plist.in
-  mac/cefsimple.icns
+  mac/ILOVENATIVE.icns
   )
-APPEND_PLATFORM_SOURCES(CEFSIMPLE_RESOURCES_MAC_SRCS)
-source_group(cefsimple\\\\mac FILES ${CEFSIMPLE_RESOURCES_MAC_SRCS})
+APPEND_PLATFORM_SOURCES(ILOVENATIVE_RESOURCES_MAC_SRCS)
+source_group(ILOVENATIVE\\\\mac FILES ${ILOVENATIVE_RESOURCES_MAC_SRCS})
 
-set(CEFSIMPLE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS_MAC
+set(ILOVENATIVE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS_MAC
   mac/English.lproj/InfoPlist.strings
   mac/English.lproj/MainMenu.xib
   )
-APPEND_PLATFORM_SOURCES(CEFSIMPLE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS)
-source_group(cefsimple\\\\mac\\\\English.lproj FILES ${CEFSIMPLE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS})
+APPEND_PLATFORM_SOURCES(ILOVENATIVE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS)
+source_group(ILOVENATIVE\\\\mac\\\\English.lproj FILES ${ILOVENATIVE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS})
 
-set(CEFSIMPLE_RESOURCES_SRCS
-  ${CEFSIMPLE_RESOURCES_MAC_SRCS}
-  ${CEFSIMPLE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS}
+set(ILOVENATIVE_RESOURCES_SRCS
+  ${ILOVENATIVE_RESOURCES_MAC_SRCS}
+  ${ILOVENATIVE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS}
   )
 
 
@@ -73,10 +73,10 @@ set(CEFSIMPLE_RESOURCES_SRCS
 #
 
 # Target executable names.
-set(CEF_TARGET "cefsimple")
+set(CEF_TARGET "ILOVENATIVE")
 if(OS_MAC)
-  set(CEF_HELPER_TARGET "cefsimple_Helper")
-  set(CEF_HELPER_OUTPUT_NAME "cefsimple Helper")
+  set(CEF_HELPER_TARGET "ILOVENATIVE_Helper")
+  set(CEF_HELPER_OUTPUT_NAME "ILOVENATIVE Helper")
 else()
   # Logical target used to link the libcef library.
   ADD_LOGICAL_TARGET("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
@@ -92,7 +92,7 @@ SET_CEF_TARGET_OUT_DIR()
 
 if(OS_LINUX)
   # Executable target.
-  add_executable(${CEF_TARGET} ${CEFSIMPLE_SRCS})
+  add_executable(${CEF_TARGET} ${ILOVENATIVE_SRCS})
   SET_EXECUTABLE_TARGET_PROPERTIES(${CEF_TARGET})
   add_dependencies(${CEF_TARGET} libcef_dll_wrapper)
   target_link_libraries(${CEF_TARGET} libcef_lib libcef_dll_wrapper ${CEF_STANDARD_LIBS})
@@ -137,7 +137,7 @@ if(OS_MAC)
   set(PRODUCT_NAME "${CEF_TARGET}")
 
   # Main app bundle target.
-  add_executable(${CEF_TARGET} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS} ${CEFSIMPLE_SRCS})
+  add_executable(${CEF_TARGET} MACOSX_BUNDLE ${ILOVENATIVE_RESOURCES_SRCS} ${ILOVENATIVE_SRCS})
   SET_EXECUTABLE_TARGET_PROPERTIES(${CEF_TARGET})
   add_dependencies(${CEF_TARGET} libcef_dll_wrapper)
   target_link_libraries(${CEF_TARGET} libcef_dll_wrapper ${CEF_STANDARD_LIBS})
@@ -172,7 +172,7 @@ if(OS_MAC)
     file(WRITE ${_helper_info_plist} ${_plist_contents})
 
     # Create Helper executable target.
-    add_executable(${_helper_target} MACOSX_BUNDLE ${CEFSIMPLE_HELPER_SRCS})
+    add_executable(${_helper_target} MACOSX_BUNDLE ${ILOVENATIVE_HELPER_SRCS})
     SET_EXECUTABLE_TARGET_PROPERTIES(${_helper_target})
     add_dependencies(${_helper_target} libcef_dll_wrapper)
     target_link_libraries(${_helper_target} libcef_dll_wrapper ${CEF_STANDARD_LIBS})
@@ -200,7 +200,7 @@ if(OS_MAC)
   # directive but that doesn't properly handle nested resource directories.
   # Remove these prefixes from input file paths.
   set(PREFIXES "mac/")
-  COPY_MAC_RESOURCES("${CEFSIMPLE_RESOURCES_SRCS}" "${PREFIXES}" "${CEF_TARGET}" "cefsimple" "${CEF_APP}")
+  COPY_MAC_RESOURCES("${ILOVENATIVE_RESOURCES_SRCS}" "${PREFIXES}" "${CEF_TARGET}" "ILOVENATIVE" "${CEF_APP}")
 endif()
 
 
@@ -211,7 +211,7 @@ endif()
 if(OS_WINDOWS)
   if(USE_SANDBOX)
     # Shared library (DLL) target.
-    add_library(${CEF_TARGET} SHARED ${CEFSIMPLE_SRCS})
+    add_library(${CEF_TARGET} SHARED ${ILOVENATIVE_SRCS})
     SET_LIBRARY_TARGET_PROPERTIES(${CEF_TARGET})
 
     # Copy and rename the bootstrap binary.
@@ -225,7 +225,7 @@ if(OS_WINDOWS)
     endif()
   else()
     # Executable target.
-    add_executable(${CEF_TARGET} WIN32 ${CEFSIMPLE_SRCS})
+    add_executable(${CEF_TARGET} WIN32 ${ILOVENATIVE_SRCS})
     SET_EXECUTABLE_TARGET_PROPERTIES(${CEF_TARGET})
 
     # Add the custom manifest files to the executable.

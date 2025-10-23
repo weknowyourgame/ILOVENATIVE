@@ -1,6 +1,6 @@
-// Copyright (c) 2013 The Chromium Embedded Framework Authors. All rights
-// reserved. Use of this source code is governed by a BSD-style license that
-// can be found in the LICENSE file.
+// Copyright (c) 2013 The Chromium Embedded Framework Authors. All rights reserved
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+// Refactored by Sarthak Kapila (sarthakkapila1@gmail.com) 2025.
 
 #ifndef CEF_TESTS_CEFSIMPLE_SIMPLE_APP_H_
 #define CEF_TESTS_CEFSIMPLE_SIMPLE_APP_H_
@@ -26,4 +26,4 @@ class SimpleApp : public CefApp, public CefBrowserProcessHandler {
   IMPLEMENT_REFCOUNTING(SimpleApp);
 };
 
-#endif  // CEF_TESTS_CEFSIMPLE_SIMPLE_APP_H_
+#endif

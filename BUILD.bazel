@@ -2,7 +2,7 @@
 # reserved. Use of this source code is governed by a BSD-style license that
 # can be found in the LICENSE file.
 
-PRODUCT_NAME = "cefsimple"
+PRODUCT_NAME = "ILOVENATIVE"
 PKG_NAME = "//tests/{}".format(PRODUCT_NAME)
 
 # Allow access from subpackages only.
@@ -25,17 +25,17 @@ srcs_browser = [
 ]
 
 srcs_browser_linux = [
-    "cefsimple_linux.cc",
+    "ILOVENATIVE_linux.cpp",
     "simple_handler_linux.cc"
 ]
 
 srcs_browser_mac = [
-    "cefsimple_mac.mm",
+    "ILOVENATIVE_mac.mm",
     "simple_handler_mac.mm"
 ]
 
 srcs_browser_win = [
-    "cefsimple_win.cc",
+    "ILOVENATIVE_win.cpp",
     "resource.h",
     "simple_handler_win.cc"
 ]
